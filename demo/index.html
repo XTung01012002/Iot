@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IOT</title>
+
+  <!-- Bulma is included -->
+  <link rel="stylesheet" href="css/main.min.css">
+
+  <!-- Fonts -->
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <div id="app">
+    <section class="section is-main-section">
+      <div class="tile is-ancestor">
+        <div class="tile is-parent">
+          <div class="card tile is-child">
+            <div class="card-content">
+              <div class="level is-mobile">
+                <div class="level-item">
+                  <div class="is-widget-label">
+                    <h3 class="subtitle is-spaced">
+                      Temperature
+                    </h3>
+                    <h1 class="title">
+                      25°C
+                    </h1>
+                  </div>
+                </div>
+                <div class="level-item has-widget-icon">
+                  <div class="is-widget-icon"><span class="icon has-text-primary is-large"><i
+                        class="mdi mdi-thermometer mdi-48px"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tile is-parent">
+          <div class="card tile is-child">
+            <div class="card-content">
+              <div class="level is-mobile">
+                <div class="level-item">
+                  <div class="is-widget-label">
+                    <h3 class="subtitle is-spaced">
+                      Humidity
+                    </h3>
+                    <h1 class="title">
+                      25%
+                    </h1>
+                  </div>
+                </div>
+                <div class="level-item has-widget-icon">
+                  <div class="is-widget-icon"><span class="icon has-text-info is-large"><i
+                        class="mdi mdi-water-percent mdi-48px"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tile is-parent">
+          <div class="card tile is-child">
+            <div class="card-content">
+              <div class="level is-mobile">
+                <div class="level-item">
+                  <div class="is-widget-label">
+                    <h3 class="subtitle is-spaced">
+                      Lux
+                    </h3>
+                    <h1 class="title">
+                      256lm
+                    </h1>
+                  </div>
+                </div>
+                <div class="level-item has-widget-icon">
+                  <div class="is-widget-icon"><span class="icon has-text-danger is-large"><i
+                        class="mdi mdi-brightness-4 mdi-48px"></i></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-8 card">
+
+          <header class="card-header">
+            <p class="card-header-title">
+              <span class="icon"><i class="mdi mdi-finance"></i></span>
+              Performance
+            </p>
+            <a href="#" class="card-header-icon">
+              <span class="icon"><i class="mdi mdi-reload"></i></span>
+            </a>
+          </header>
+          <div class="card-content">
+            <div class="chart-area">
+              <div style="height: 100%;">
+                <div class="chartjs-size-monitor">
+                  <div class="chartjs-size-monitor-expand">
+                    <div></div>
+                  </div>
+                  <div class="chartjs-size-monitor-shrink">
+                    <div></div>
+                  </div>
+                </div>
+                <canvas id="big-line-chart" width="2992" height="1000" class="chartjs-render-monitor"
+                  style="display: block; height: 400px; width: 1197px;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4">
+          <div class="tile is-parent">
+            <div class="card tile is-child">
+              <div class="card-content">
+                <div class="level is-mobile">
+                  <div class="level-item">
+                    <!-- Icon đèn -->
+                    <span id="lightbulbIcon" class="icon has-text-info is-large">
+                      <span class="mdi mdi-lightbulb-off"></span>
+                    </span>
+                  </div>
+
+                  <div class="level-item">
+                    <button id="toggleButton" class="button is-primary">Bật</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tile is-parent">
+            <div class="card tile is-child">
+              <div class="card-content">
+                <div class="level is-mobile">
+                  <div class="level-item">
+                    <!-- Biểu tượng cánh quạt -->
+                    <span id="fanBlades" class="icon is-large">
+                      <i class="mdi mdi-fan"></i>
+                    </span>
+                  </div>
+                  <div class="level-item">
+                    <!-- Nút bật/tắt cánh quạt -->
+                    <button id="toggleFanButton" class="button is-primary">Bật</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  </section>
+
+  </div>
+  <script>
+    const toggleButton = document.getElementById('toggleButton');
+    const lightbulbIcon = document.getElementById('lightbulbIcon');
+
+    toggleButton.addEventListener('click', function () {
+      // Chuyển đổi giữa các trạng thái bật và tắt
+      if (toggleButton.classList.contains('is-primary')) {
+        toggleButton.classList.remove('is-primary');
+        toggleButton.classList.add('is-danger');
+        toggleButton.textContent = 'Tắt';
+        lightbulbIcon.innerHTML = '<i class="mdi mdi-lightbulb-on"></i>';
+      } else {
+        toggleButton.classList.remove('is-danger');
+        toggleButton.classList.add('is-primary');
+        toggleButton.textContent = 'Bật';
+        lightbulbIcon.innerHTML = '<i class="mdi mdi-lightbulb-off"></i>';
+      }
+    });
+    const toggleFanButton = document.getElementById('toggleFanButton');
+    const fanBlades = document.getElementById('fanBlades');
+
+    let fanOn = false; 
+    toggleFanButton.addEventListener('click', function () {
+        // Chuyển đổi giữa các trạng thái bật và tắt
+        fanOn = !fanOn;
+
+        if (fanOn) {
+            toggleFanButton.classList.remove('is-primary');
+            toggleFanButton.classList.add('is-danger');
+            toggleFanButton.textContent = 'Tắt';
+            fanBlades.classList.add('rotate-fan');
+        } else {
+            toggleFanButton.classList.remove('is-danger');
+            toggleFanButton.classList.add('is-primary');
+            toggleFanButton.textContent = 'Bật';
+            fanBlades.classList.remove('rotate-fan');
+        }
+    });
+  </script>
+  <style>
+    
+    .rotate-fan {
+        animation: rotateFan 1s infinite linear;
+    }
+
+    @keyframes rotateFan {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+
+  <!-- Scripts below are for demo only -->
+  <script type="text/javascript" src="js/main.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+  <script type="text/javascript" src="js/chart.sample.min.js"></script>
+
+  <!-- Icons below are for demo only. Feel free to use any icon pack. Docs: https://bulma.io/documentation/elements/icon/ -->
+  <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
+</body>
+
+</html>

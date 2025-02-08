@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Form Đăng Ký</title>
+    <style>
+        /* Cập nhật CSS */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* Sửa lại thành 100vh để căn giữa theo chiều dọc */
+            margin: 0;
+            padding: 0;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            /* Adjust width as needed */
+            background-color: #f9f9f9;
+            /* Background color for the form */
+            padding: 20px;
+            /* Padding inside the form */
+            border-radius: 8px;
+            /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* Shadow for depth */
+        }
+
+        .form-container form div {
+            margin-bottom: 20px;
+            /* Thêm khoảng cách dưới mỗi div */
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            /* Font family for better appearance */
+            background-color: #f0f2f5;
+            /* Background color for the page */
+        }
+
+        /* Style for the link to make it look like a button */
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            /* Add some margin for spacing */
+            font-weight: bold;
+            /* Bold text */
+        }
+
+        .button-link:hover {
+            background-color: #0056b3;
+            /* Darker blue on hover */
+        }
+
+        /* Style for the submit button */
+        .form-container form button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #28a745;
+            /* Green background */
+            color: white;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            /* Bold text */
+            transition: background-color 0.3s;
+            /* Smooth transition for background color */
+        }
+
+        .form-container form button[type="submit"]:hover {
+            background-color: #218838;
+            /* Darker green on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <!-- Update the button to an anchor tag for linking to listUser.ejs -->
+        <form>
+            <h1>Sửa User</h1>
+            <div>
+                <label for="name">Tên</label>
+                <input type="text" value="<%= decodeURIComponent(user.name || '') %>" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="age">Tuổi</label>
+                <input type="text" value="<%= decodeURIComponent(user.age || '') %>" id="age" name="age" required>
+            </div>
+            <div>
+                <label for="address">Địa chỉ</label>
+                <input type="text" value="<%= decodeURIComponent(user.address || '') %>" id="address" name="address"
+                    required>
+            </div>
+            <button type="submit" id="editUserButton">Lưu</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+
+        var btnEditUserButton = document.getElementById('editUserButton');
+        btnEditUserButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            var newName = document.getElementById('name').value;
+            var newAge = document.getElementById('age').value;
+            var newAddress = document.getElementById('address').value;
+            var userId = '<%= user.id %>';
+            
+            console.log(userId);
+            var settings = {
+                url: '/user/' + userId,
+                method: 'PUT',
+                contentType: 'application/json', // Đặt kiểu dữ liệu gửi đi là JSON
+                data: JSON.stringify({
+                    name: newName,
+                    age: newAge,
+                    address: newAddress
+                }),
+                success: function (response) {
+                    console.log(response);
+                    alert('Sửa người dùng thành công!');
+                    window.location.href = '/user/getUser';
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('Lỗi:', textStatus, errorThrown);
+                    alert('Lỗi khi sửa người dùng: ' + textStatus);
+                }
+            };
+        // Gửi yêu cầu AJAX
+            $.ajax(settings);
+        });
+    });
+
+
+</script>
+
+</html>
